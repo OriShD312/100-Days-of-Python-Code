@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Select Movie{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="heading">Select Movie</h1>
+    {% for movie in movies_list %}
+    <p>
+      <a href="{{ url_for('select',
+       title=movie.original_title,
+       year=movie.release_date,
+       desc=movie.overview,
+       img_url=movie.poster_path)}}"> 
+       <img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="Movie poster image" height="200px">
+       {{ movie.original_title }} - {{ movie.release_date }}
+      </a>
+    </p>
+    {% endfor %}
+
+</div>
+{% endblock %}

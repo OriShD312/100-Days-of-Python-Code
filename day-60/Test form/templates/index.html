@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My 1st Test Form</title>
+</head>
+<body>
+    <form action="{{ url_for('login_page') }}" method='post'>
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name2" placeholder="Enter your name">
+        <label for="password">Password</label>
+        <input type="text" name="password" id="password2" placeholder="Enter your password">
+        <button>Ok</button>
+    </form>
+</body>
+</html>
