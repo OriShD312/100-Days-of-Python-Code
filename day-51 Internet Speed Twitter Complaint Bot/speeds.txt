@@ -1,0 +1,2 @@
+My speeds are: 898.42/102.37.
+My expected speeds are: 1000/100
