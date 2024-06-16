@@ -4,7 +4,8 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Boolean, inspect
 from sqlalchemy.exc import IntegrityError, OperationalError
-
+import os
+import pathlib
 
 app = Flask(__name__)
 
@@ -12,7 +13,11 @@ app = Flask(__name__)
 class Base(DeclarativeBase):
     pass
 # Connect to Database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///cafes.db'
+db_folder = str(os.path.join(pathlib.Path(__file__).parent.resolve(), 'instance')).replace('\\', '/')
+if not os.path.exists(db_folder):
+    os.mkdir(db_folder)
+db_uri = f'sqlite:///{db_folder}/cafes.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 

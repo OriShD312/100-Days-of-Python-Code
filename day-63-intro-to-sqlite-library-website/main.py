@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String, Float
+import pathlib
+import os
 
 app = Flask(__name__)
 
@@ -9,7 +11,11 @@ class Base(DeclarativeBase):
     pass
 
 db = SQLAlchemy(model_class=Base)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///new-books-collection.db'
+db_folder = str(os.path.join(pathlib.Path(__file__).parent.resolve(), 'instance')).replace('\\', '/')
+if not os.path.exists(db_folder):
+    os.mkdir(db_folder)
+db_uri = f'sqlite:///{db_folder}/books.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db.init_app(app)
 
 class Book(db.Model):

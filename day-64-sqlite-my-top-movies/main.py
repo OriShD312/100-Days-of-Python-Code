@@ -7,8 +7,10 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField
 from wtforms.validators import DataRequired
 from pip._vendor import requests
+import pathlib
+import os
 
-TMDB_API_KEY = 'YOUR TMDB API KEY'
+TMDB_API_KEY = os.environ.get('TMDB_API_KEY')
 TMDB_URL = 'https://api.themoviedb.org/3/search/movie'
 TMDB_IMG_URL = 'https://image.tmdb.org/t/p/w500'
 
@@ -26,7 +28,11 @@ class Base(DeclarativeBase):
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///movies.db'
+db_folder = str(os.path.join(pathlib.Path(__file__).parent.resolve(), 'instance')).replace('\\', '/')
+if not os.path.exists(db_folder):
+    os.mkdir(db_folder)
+db_uri = f'sqlite:///{db_folder}/movies.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 Bootstrap5(app)

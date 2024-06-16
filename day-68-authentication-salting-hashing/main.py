@@ -5,6 +5,8 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import Integer, String
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from sqlalchemy.exc import IntegrityError
+import pathlib
+import os
 
 
 app = Flask(__name__)
@@ -13,7 +15,11 @@ app.config['SECRET_KEY'] = 'secret-key-goes-here'
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///C:/Ori/VSCode Projects/100 Days of Code Python/day-68/instance/users.db'
+db_folder = str(os.path.join(pathlib.Path(__file__).parent.resolve(), 'instance')).replace('\\', '/')
+if not os.path.exists(db_folder):
+    os.mkdir(db_folder)
+db_uri = f'sqlite:///{db_folder}/users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 

@@ -8,6 +8,8 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, URL
 from flask_ckeditor import CKEditor, CKEditorField
 from datetime import date
+import os
+import pathlib
 
 
 app = Flask(__name__)
@@ -19,7 +21,11 @@ ckeditor = CKEditor(app)
 # CREATE DATABASE
 class Base(DeclarativeBase):
     pass
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+db_folder = str(os.path.join(pathlib.Path(__file__).parent.resolve(), 'instance')).replace('\\', '/')
+if not os.path.exists(db_folder):
+    os.mkdir(db_folder)
+db_uri = f'sqlite:///{db_folder}/posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
