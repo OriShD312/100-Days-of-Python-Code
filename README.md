@@ -31,7 +31,7 @@ Day 61:
 - learn about WTForms, an easier way to create and generate forms between Python and HTML.
 
 Day 62:
-- create a website that uses WRForms to allow users to add their favorite coffee shops with parameters for WiFi, Coffee and Outlet rating.
+- create a website that uses WTForms to allow users to add their favorite coffee shops with parameters for WiFi, Coffee and Outlet rating.
 
 Day 63:
 - first introduction to SQLite, the most popular database tool used all over the world. Uses very specific string commands that are prone to typos.
