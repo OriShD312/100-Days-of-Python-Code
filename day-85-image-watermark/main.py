@@ -12,66 +12,58 @@ class App(Window):
         self.text_font = ('Arial', 24)
         self.text_color = '#FFFFFF'
         self.title('test')
-        self.geometry('1570x990')
+        self.geometry('1760x990')
 
         my_style = Style()
-        my_style.configure('my.TButton', font=('Arial', 24))
+        my_style.configure('secondary.TButton', font=('Arial', 24))
+        my_style.configure('my.TButton', font=('Arial', 12))
 
         self.image_history = [] # list that holds image states for undo function
         self.text_items = [] # list that holds all the text added to the image
 
         self.my_notebook = Notebook(self) # create a notebook to include all app features
-        self.my_notebook.grid(row=0, column=0, columnspan=2, padx=10, pady=10, sticky=NS)
+        self.my_notebook.grid(row=0, column=0, columnspan=2, padx=10, pady=20, sticky=NS)
         
         self.configure_grid()
 
         self.my_canvas = Canvas(self, width=1280, height=960) # canvas to hold image
-        self.my_canvas.grid(row=0, column=2, rowspan=3, padx=(0, 10), pady=10)
+        self.my_canvas.grid(row=0, column=2, rowspan=3, padx=(0, 10), pady=20)
 
-        self.browse_for_image_button = Button(self, text='Browse', command=self.browse_for_image) # button to browse for image
+        self.browse_for_image_button = Button(self, text='Browse 📁', command=self.browse_for_image, style='my.TButton', width=2) # button to browse for image
         self.browse_for_image_button.grid(row=1, column=0, sticky=EW, padx=10, pady=(0, 10))
 
-        self.save_image_button = Button(self, text='Save', command=self.save_image) # button to save image after changes
+        self.save_image_button = Button(self, text='Save 💾', command=self.save_image, style='my.TButton', width=2) # button to save image after changes
         self.save_image_button.grid(row=1, column=1, padx=(0,10), pady=(0,10), sticky=EW)
 
-        self.undo_button = Button(self, text='Undo Last Action', command=self.undo_action) # button to undo last action
+        self.undo_button = Button(self, text='Undo Last Action 🔙', command=self.undo_action, style='my.TButton', width=2) # button to undo last action
         self.undo_button.grid(row=2, column=0, padx=10, pady=(0,10), sticky=EW, columnspan=2)
 
         self.customization_tab = Frame(self.my_notebook) # Notebook Frame
         self.my_notebook.add(self.customization_tab, text='Customize Your Image')
 
-        self.user_text_label = Label(self.customization_tab, text='Your text here:') # user text prompt
-        self.user_text_label.grid(row=0, column=0, padx=10, pady=10)
+        self.user_text_label = Label(self.customization_tab, text='Your text here:', font=('Arial', 12)) # user text prompt
+        self.user_text_label.grid(row=0, column=0, padx=10, pady=20)
 
-        self.text_opacity = Scale(self.customization_tab, command=self.update_alpha) # opacity scale slider
-        self.text_opacity.grid(row=1, column=1, padx=10, pady=10)
-
-        self.alpha_value_label = Label(self.customization_tab, text=f'Opacity: {self.text_opacity.get()}') # show current opacity value
-        self.alpha_value_label.grid(row=1, column=0, padx=10, pady=10)
-
-        self.user_text = Entry(self.customization_tab) # user text entry box
-        self.user_text.grid(row=0, column=1, padx=10, pady=10, sticky=EW)
+        self.user_text = Entry(self.customization_tab, font=('Arial', 12)) # user text entry box
+        self.user_text.grid(row=0, column=1, padx=10, pady=20, sticky=EW)
                         
-        self.open_font_dialog_window_button = Button(self.customization_tab, text='Open Font Settings', command=self.open_font_dialog_window) # button that opens font dialog window
-        self.open_font_dialog_window_button.grid(row=2, column=0, columnspan=2, padx=10, pady=10, sticky=EW)
+        self.open_font_dialog_window_button = Button(self.customization_tab, text='Open Font Settings', command=self.open_font_dialog_window, style='my.TButton', width=2) # button that opens font dialog window
+        self.open_font_dialog_window_button.grid(row=2, column=0, columnspan=2, padx=10, pady=20, sticky=EW)
 
-        self.open_color_chooser_window_button = Button(self.customization_tab, text='Open Font Color Settings', command=self.open_color_chooser_window) # button that opens color choice window
-        self.open_color_chooser_window_button.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky=EW)
+        self.open_color_chooser_window_button = Button(self.customization_tab, text='Open Font Color Settings 🌈', command=self.open_color_chooser_window, style='my.TButton', width=2) # button that opens color choice window
+        self.open_color_chooser_window_button.grid(row=3, column=0, columnspan=2, padx=10, pady=20, sticky=EW)
 
-        self.add_text_button = Button(self.customization_tab, text='Add Your Text to Image', command=self.add_text) # button that adds user text to canvas image
-        self.add_text_button.grid(row=4, column=0, columnspan=2, padx=10, pady=10, sticky=EW)
+        self.add_text_button = Button(self.customization_tab, text='Add Your Text to Image ➕', command=self.add_text, style='my.TButton', width=2) # button that adds user text to canvas image
+        self.add_text_button.grid(row=4, column=0, columnspan=2, padx=10, pady=20, sticky=EW)
 
-        self.remove_bg_button = Button(self.customization_tab, text='Remove Image Background', command=self.remove_bg) # button that activates remove image background function
-        self.remove_bg_button.grid(row=5, column=0, columnspan=2, padx=10, pady=10, sticky=EW)
+        self.remove_bg_button = Button(self.customization_tab, text='Remove Image Background', command=self.remove_bg, style='my.TButton', width=2) # button that activates remove image background function
+        self.remove_bg_button.grid(row=5, column=0, columnspan=2, padx=10, pady=20, sticky=EW)
 
-        self.rotate_image_counter_clockwise_button = Button(self.customization_tab, text='↪', style='my.TButton', command=lambda: self.rotate_image(90), width=10) # button to rotate image 90 degrees counter clockwise
-        self.rotate_image_counter_clockwise_button.grid(row=6, column=0, padx=10, pady=10)
+        self.rotate_image_counter_clockwise_button = Button(self.customization_tab, text='↪', style='secondary.TButton', command=lambda: self.rotate_image(90), width=10) # button to rotate image 90 degrees counter clockwise
+        self.rotate_image_counter_clockwise_button.grid(row=6, column=0, padx=10, pady=20)
 
-        self.rotate_image_clockwise_button = Button(self.customization_tab, text='↩', style='my.TButton', command=lambda: self.rotate_image(-90), width=10) # button to rotate image 90 degrees clockwise
-        self.rotate_image_clockwise_button.grid(row=6, column=1, padx=(0,10), pady=10)
-
-    def update_alpha(self, e):
-        self.alpha_value_label.config(text=f'Opacity: {self.text_opacity.get():,.1f}')
+        self.rotate_image_clockwise_button = Button(self.customization_tab, text='↩', style='secondary.TButton', command=lambda: self.rotate_image(-90), width=10) # button to rotate image 90 degrees clockwise
+        self.rotate_image_clockwise_button.grid(row=6, column=1, padx=(0,10), pady=20)
     
     def add_text(self):
         if self.user_text.get():
@@ -188,7 +180,7 @@ class App(Window):
         self.my_canvas.bind_all("<KeyPress>", on_key_press)  # Bind the Delete key press event globally
 
     def reapply_text_items(self):
-        for _, text, _, font, color, x, y in self.text_items:
+        for _, text, font, color, x, y in self.text_items:
             text_id = self.my_canvas.create_text(x, y, text=text, font=font, fill=color)
             self.make_draggable(text_id)
 
