@@ -16,7 +16,7 @@ pyperclip==1.9.0
 rembg==2.0.57
 Requests==2.32.3
 selenium==4.22.0
-spotipy==2.23.0
+spotipy==2.25.1
 SQLAlchemy==2.0.25
 ttkbootstrap==1.10.1
 Werkzeug==3.0.3
